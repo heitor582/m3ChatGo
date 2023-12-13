@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports: 
+      - 8080:8080
+    env_file:
+      - .env
+    depends_on: 
+      - pg
+    networks:
+      - chat-network
+    links:
+      - pg
+  pg: 
+    image: postgres
+    container_name: pg
+    ports: 
+      - 5432:5432
+    environment: 
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: pgChat
+    networks:
+      - chat-network
+
+networks: 
+  chat-network:
+    driver: bridge
