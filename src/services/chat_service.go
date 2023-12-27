@@ -35,7 +35,7 @@ func NewMessage(messageDto dto.MessageDto, userId uint64) ([]dto.MessageDto, err
 		return []dto.MessageDto{}, errors.New("user was not found")
 	}
 	
-	gptMessage, err := SendMessageToChatGpt(userMessage.Content, userId, messageDto.ChatRoomId)
+	gptMessage, err := SendMessageToChatGpt(userMessage.Content, messageDto.ChatRoomId, userId)
 	if err != nil {
 		return []dto.MessageDto{}, errors.New(err.Error())
 	}
