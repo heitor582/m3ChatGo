@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io"
 	"net/http"
 	"os"
@@ -84,7 +83,6 @@ func SendMessageToChatGpt(userMessage string, chatRoomId uint64, userId uint64) 
 	defer resp.Body.Close()
 
 	body, err := io.ReadAll(resp.Body)
-	fmt.Println(body)
 
 	if err != nil {
 		return models.MessageModel{}, errors.New(err.Error())
