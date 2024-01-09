@@ -1,5 +1,7 @@
 package dto
 
+import "os"
+
 type ChatGptMessageDto struct {
 	Model	string `json:"model" validate:"required,string"`
 	Temperature float32 `json:"temperature" validate:"required"`
@@ -16,8 +18,9 @@ type ChatGptMessage struct {
 }
 
 func NewChatGptMessageDto(messages []ChatGptMessage) ChatGptMessageDto {
+	gptModel := os.Getenv("GPT_MODEL")
 	return ChatGptMessageDto{
-		Model: "gpt-3.5-turbo",
+		Model: gptModel,
 		Temperature: 1.0,
 		Messages: messages,
 	}
