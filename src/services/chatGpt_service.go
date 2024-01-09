@@ -86,7 +86,7 @@ func SendMessageToChatGpt(userMessage string, chatRoomId uint64, userId uint64) 
 	body, err := io.ReadAll(resp.Body)
 
 	if err != nil {
-		log.Println("body: %s", body)
+		log.Printf("body: %s", body)
 		return models.MessageModel{}, errors.New(err.Error())
 	}
  
