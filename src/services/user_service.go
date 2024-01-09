@@ -27,7 +27,6 @@ func Login(loginDto dto.LoginDto) (string, error) {
 	claims := token.Claims.(jwt.MapClaims)
 	claims["company_name"] = user.CompanyName
 	claims["id"] = user.ID
-	claims["exp"] = time.Now().Add(time.Minute * 15).Unix()
 
 	t, err := token.SignedString([]byte(os.Getenv("JWT_SECRET_KEY")))
 	if err != nil {
