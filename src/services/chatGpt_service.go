@@ -21,7 +21,7 @@ func SendMessageToChatGpt(userMessage string, chatRoomId uint64, userId uint64) 
 	bearerToken := os.Getenv("CHAT_GPT_TOKEN")
 
 	var oldMessages []models.MessageModel
-	err := db.Where("chat_room_id = ? AND user_id IN ?", chatRoomId, []uint64{1, userId}).Find(&oldMessages).Error
+	err := db.Where("user_id IN ?", []uint64{1, userId}).Find(&oldMessages).Error
 	if err != nil {
 		return models.MessageModel{}, errors.New(err.Error())
 	}
@@ -100,7 +100,7 @@ func SendMessageToChatGpt(userMessage string, chatRoomId uint64, userId uint64) 
 
 	var gptMessage models.MessageModel = models.MessageModel {
 		Content: response.Choices[len(response.Choices)-1].Message.Content,
-		UserID: userId,
+		UserID: 1,
 		ChatRoomId: chatRoomId,
 		CreatedAt: time.Now(),
 	}

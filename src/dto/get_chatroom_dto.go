@@ -8,6 +8,11 @@ import (
 type GetChatRoomDto struct {
 	ID       uint64		`json:"id" validate:"required"`
 	Name     string		`json:"name" validate:"required,string"`
-	Messages []models.MessageModel `json:"messages"`
+	Messages []GetChatRoomMessage `json:"messages"`
 	CreatedAt time.Time `json:"created_at"`
+}
+
+type GetChatRoomMessage struct {
+	models.MessageModel
+	CompanyName 	string 		`json:"company_name" validate:"required,string"`
 }
