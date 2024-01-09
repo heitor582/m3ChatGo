@@ -31,13 +31,13 @@ func SendMessageToChatGpt(userMessage string, chatRoomId uint64, userId uint64) 
 
 	for i := 0; i < len(oldMessages); i++ {
 		message := oldMessages[i]
-		var role string 
+		// var role string 
 
-		if message.UserID == 1 {
-			role = "system"
-		} else {
-			role = "user"
-		}
+		// if message.UserID == 1 {
+		// 	role = "system"
+		// } else {
+		// 	role = "user"
+		// }
 
 		oldMessagesFormated = append(oldMessagesFormated, dto.ChatGptMessage{
 			Role: "system",
