@@ -36,15 +36,15 @@ func NewMessage(messageDto dto.MessageDto, userId uint64) ([]dto.MessageDto, err
 		return []dto.MessageDto{}, errors.New("user was not found")
 	}
 
-	log.Println("Achou os usuário e irá mandar a mensagem para a ia")
+	log.Println("[mandando mensagem] Achou os usuário e irá mandar a mensagem para a ia")
 	
 	gptMessage, err := SendMessageToChatGpt(userMessage.Content, messageDto.ChatRoomId, userId)
 	if err != nil {
-		log.Println(err)
+		log.Printf("erro ao mandar mensagem pro gpt %s", err)
 		return []dto.MessageDto{}, errors.New(err.Error())
 	}
 
-	log.Println("Mandou a mensagem e a ia retornou")
+	log.Println("[mandou com sucesso] Mandou a mensagem e a ia retornou")
 
 	err = db.Create(&gptMessage).Error
 	if err != nil {
