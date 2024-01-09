@@ -2,7 +2,7 @@ package services
 
 import (
 	"errors"
-	"fmt"
+	"log"
 	"time"
 
 	"github.com/heitor582/m3ChatGo/src/configuration"
@@ -36,15 +36,15 @@ func NewMessage(messageDto dto.MessageDto, userId uint64) ([]dto.MessageDto, err
 		return []dto.MessageDto{}, errors.New("user was not found")
 	}
 
-	fmt.Println("Achou os usuário e irá mandar a mensagem para a ia")
+	log.Println("Achou os usuário e irá mandar a mensagem para a ia")
 	
 	gptMessage, err := SendMessageToChatGpt(userMessage.Content, messageDto.ChatRoomId, userId)
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		return []dto.MessageDto{}, errors.New(err.Error())
 	}
 
-	fmt.Println("Mandou a mensagem e a ia retornou")
+	log.Println("Mandou a mensagem e a ia retornou")
 
 	err = db.Create(&gptMessage).Error
 	if err != nil {
@@ -56,11 +56,15 @@ func NewMessage(messageDto dto.MessageDto, userId uint64) ([]dto.MessageDto, err
 			Content: userMessage.Content,
 			ChatRoomId: userMessage.ChatRoomId,
 			CompanyName: user.CompanyName,
+			UserID: userId,
+			CreatedAt: userMessage.CreatedAt,
 		},
 		{
 			Content: gptMessage.Content,
 			ChatRoomId: gptMessage.ChatRoomId,
 			CompanyName: gptUser.CompanyName,
+			UserID: gptMessage.ID,
+			CreatedAt: gptMessage.CreatedAt,
 		},
 	}, nil
 }
