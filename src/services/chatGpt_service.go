@@ -40,7 +40,7 @@ func SendMessageToChatGpt(userMessage string, chatRoomId uint64, userId uint64) 
 		}
 
 		oldMessagesFormated = append(oldMessagesFormated, dto.ChatGptMessage{
-			Role: role,
+			Role: "system",
 			Content: message.Content,
 		})
 	}
@@ -85,8 +85,6 @@ func SendMessageToChatGpt(userMessage string, chatRoomId uint64, userId uint64) 
 	defer resp.Body.Close()
 
 	body, err := io.ReadAll(resp.Body)
-
-	log.Printf("body: %s", body)
 
 	if err != nil {
 		return models.MessageModel{}, errors.New(err.Error())
