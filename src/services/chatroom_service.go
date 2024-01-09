@@ -38,12 +38,12 @@ func GetChatRoom(chatRoomId uint64, userId uint64) (dto.GetChatRoomDto, error) {
 	}
 
 	var messages []models.MessageModel
-	err := db.Where("chat_room_id = ? AND user_id = ?", chatRoomId, userId).Find(&messages).Error
+	err := db.Where("chat_room_id = ?", chatRoomId).Find(&messages).Error
 	if err != nil {
 		return dto.GetChatRoomDto{}, errors.New(err.Error())
 	}
 
-	messagesWithCompanyName := make([]dto.GetChatRoomMessage, len(messages))
+	var messagesWithCompanyName []dto.GetChatRoomMessage
 	for _,v := range messages {
 		var companyName string
 
